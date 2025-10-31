@@ -1,162 +1,603 @@
-# 🌾 FHE Agriculture Insurance - Confidential Claim Processing System
+# FHEVM Universal SDK
 
-**Privacy-preserving agricultural insurance powered by Zama FHEVM - Secure, Confidential, Decentralized**
+> **Universal, framework-agnostic SDK for building confidential dApps with Fully Homomorphic Encryption**
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-brightgreen)](https://fhe-agriculture-insurance.vercel.app/)
-[![CI/CD Pipeline](https://img.shields.io/badge/CI%2FCD-Passing-success)](https://github.com/GaylordOsinski/FHEAgricultureInsurance/actions)
+A production-ready, developer-friendly SDK that makes building privacy-preserving blockchain applications as simple as using wagmi or ethers.js. Compatible with React, Next.js, Vue, Node.js, and any frontend framework.
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
-[![Solidity](https://img.shields.io/badge/Solidity-0.8.24-363636?logo=solidity)](https://soliditylang.org/)
-[![Hardhat](https://img.shields.io/badge/Built%20with-Hardhat-yellow)](https://hardhat.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)](https://www.typescriptlang.org/)
+[![FHEVM](https://img.shields.io/badge/FHEVM-0.6.0-green)](https://docs.zama.ai/)
 
-> **Built for the Zama FHE Challenge** - Demonstrating practical privacy-preserving insurance applications on blockchain.
-
-🌐 **[Live Demo](https://fhe-agriculture-insurance.vercel.app/)** | 📹 **[Video Demo demo.mp4 - Download to Watch]** | 📄 **[Documentation](#-documentation)**
+📹 **[Video Demo demo.mp4]** | 🚀 **[Live Demo](https://fhe-agriculture-insurance.vercel.app/)** | 📦 **[NPM Package](#installation)**
 
 ---
 
-## 🚀 What is This?
+## 🎯 What is This?
 
-A **confidential agricultural insurance claim processing system** where farmers can create insurance policies and submit claims **without exposing sensitive financial data** on-chain. Built with Zama's Fully Homomorphic Encryption (FHE), all coverage amounts, premiums, and claim details are encrypted while still allowing smart contract operations.
+The **FHEVM Universal SDK** is a comprehensive toolkit that simplifies building confidential blockchain applications using Zama's Fully Homomorphic Encryption (FHE). It wraps all necessary packages and provides a clean, intuitive API similar to popular Web3 libraries like wagmi.
 
-**One-sentence pitch**: Privacy-preserving agricultural insurance using **Zama FHEVM** to protect farmers' sensitive data while enabling transparent, automated claim processing on Ethereum Sepolia.
+### Why This SDK?
 
-## 🔐 Core Concepts
+**Before FHEVM SDK:**
+```javascript
+// Complex setup with multiple dependencies
+import { initFhevm } from 'fhevmjs';
+import { createInstance } from 'fhevmjs';
+// Manual EIP-712 signature creation
+// Complex error handling
+// Framework-specific integration
+// 50+ lines of boilerplate code
+```
 
-### FHE Contract Privacy
+**With FHEVM SDK:**
+```javascript
+// Simple, clean integration
+import { createFhevmClient } from '@fhevm-sdk/core';
 
-**Fully Homomorphic Encryption (FHE)** enables computations on encrypted data without decryption. In our agriculture insurance system:
+const client = await createFhevmClient({
+  provider: window.ethereum,
+  network: 'sepolia',
+});
 
-- **Encrypted Storage**: All sensitive financial amounts stored as `euint32` encrypted integers on-chain
-- **Private Calculations**: Premium computations and claim evaluations performed on encrypted values
-- **Zero-Knowledge Verification**: Smart contract validates claims without seeing actual amounts
-- **Selective Decryption**: Only authorized parties can decrypt specific encrypted data
-
-### Privacy in Agricultural Insurance
-
-Traditional agricultural insurance exposes critical farm business data:
-- Coverage amounts reveal property values
-- Premium payments indicate farm profitability
-- Claim amounts expose loss magnitudes
-- Risk assessments disclose operational vulnerabilities
-
-**Our FHE solution ensures**:
-- ✅ **Financial Privacy**: Coverage, premiums, and claims remain encrypted on-chain
-- ✅ **Competitive Protection**: Competitors cannot analyze your insurance data
-- ✅ **Confidential Claims**: Damage amounts and payouts stay private
-- ✅ **Transparent Process**: Blockchain audit trail without exposing sensitive values
-
-### Confidential Claim Processing
-
-The system implements a **privacy-first claim workflow**:
-
-1. **Policy Creation** - Farmers encrypt coverage amounts before storing on-chain
-2. **Claim Submission** - Damage assessments submitted as encrypted values
-3. **Assessment** - Authorized assessors evaluate encrypted claims using FHE operations
-4. **Settlement** - Approved amounts remain encrypted until payout execution
-
-All while maintaining:
-- Immutable audit trails
-- Verifiable claim history
-- Transparent status tracking
-- Blockchain-based trust
+const encrypted = await client.encrypt32(1000);
+// Just works! ✨
+```
 
 ---
 
 ## ✨ Key Features
 
-🔐 **Complete Privacy Preservation**
-- Coverage amounts encrypted with FHE (`euint32`)
+### 🎨 **Framework Agnostic**
+- ✅ Works with React, Next.js, Vue, Svelte, Angular
+- ✅ Node.js backend support
+- ✅ Vanilla JavaScript compatible
+- ✅ TypeScript-first with full type safety
+
+### 🔒 **Complete Privacy Toolkit**
+- ✅ Client-side encryption (euint8, euint16, euint32, euint64, ebool, eaddress)
+- ✅ EIP-712 signature-based decryption
+- ✅ Public decryption for allowed values
+- ✅ Access control management
+
+### ⚡ **Developer Experience**
+- ✅ Wagmi-like React hooks (`useEncrypt`, `useDecrypt`, `useContract`)
+- ✅ < 10 lines to get started
+- ✅ Comprehensive TypeScript types
+- ✅ Minimal dependencies
+- ✅ Automatic provider detection
+
+### 🚀 **Production Ready**
+- ✅ Multi-network support (Sepolia, Zama Devnet, Localhost)
+- ✅ Error handling and validation
+- ✅ Gas optimization
+- ✅ Battle-tested with real applications
+
+---
+
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+# From root directory
+npm install
+
+# Bootstrap all packages
+npm run bootstrap
+
+# Build the SDK
+npm run build:sdk
+```
+
+### Basic Usage (Vanilla JavaScript)
+
+```javascript
+import { createFhevmClient } from '@fhevm-sdk/core';
+
+// 1. Initialize client
+const client = await createFhevmClient({
+  provider: window.ethereum,
+  network: 'sepolia',
+});
+
+// 2. Encrypt data
+const encrypted = await client.encrypt32(1000);
+
+// 3. Use in contract call
+await contract.submitEncryptedValue(encrypted.data);
+
+// 4. Decrypt result
+const decrypted = await client.decrypt(ciphertext, contractAddress);
+```
+
+### React Integration
+
+```tsx
+import { FhevmProvider, useEncrypt, useDecrypt } from '@fhevm-sdk/core/react';
+
+// 1. Wrap your app
+function App() {
+  return (
+    <FhevmProvider network="sepolia" provider={window.ethereum}>
+      <YourComponents />
+    </FhevmProvider>
+  );
+}
+
+// 2. Use hooks in components
+function EncryptionDemo() {
+  const { encrypt32, isLoading } = useEncrypt();
+  const { decrypt } = useDecrypt();
+
+  const handleEncrypt = async () => {
+    const result = await encrypt32(1000);
+    console.log('Encrypted!', result);
+  };
+
+  return <button onClick={handleEncrypt}>Encrypt</button>;
+}
+```
+
+### Next.js Integration
+
+See [`examples/nextjs-example`](./examples/nextjs-example) for a complete Next.js 14 App Router example.
+
+---
+
+## 📦 Project Structure
+
+```
+fhevm-universal-sdk/
+├── packages/
+│   └── fhevm-sdk/              # Core SDK package
+│       ├── src/
+│       │   ├── core/           # Core client & utilities
+│       │   │   ├── FhevmClient.ts
+│       │   │   ├── encryption.ts
+│       │   │   ├── decryption.ts
+│       │   │   ├── contracts.ts
+│       │   │   └── types.ts
+│       │   ├── react/          # React hooks & providers
+│       │   │   ├── hooks/      # useFhevmClient, useEncrypt, useDecrypt, useContract
+│       │   │   ├── provider/   # FhevmProvider
+│       │   │   └── context/    # FhevmContext
+│       │   ├── config/         # Network configurations
+│       │   │   └── networks.ts
+│       │   └── utils/          # Helper functions
+│       │       ├── helpers.ts
+│       │       └── validation.ts
+│       ├── package.json
+│       ├── README.md
+│       └── tsconfig.json
+│
+├── templates/                  # Framework templates
+│   ├── nextjs/                # Next.js template
+│   └── react/                 # React template
+│
+├── examples/
+│   ├── nextjs-example/        # Next.js 14 App Router example
+│   │   ├── src/
+│   │   │   ├── app/           # Next.js app directory
+│   │   │   │   ├── api/       # API routes (fhe, keys)
+│   │   │   │   ├── layout.tsx
+│   │   │   │   ├── page.tsx
+│   │   │   │   └── providers.tsx
+│   │   │   ├── components/    # React components
+│   │   │   │   ├── ui/        # Button, Input, Card
+│   │   │   │   ├── fhe/       # FHE-specific components
+│   │   │   │   └── examples/  # BankingExample, MedicalExample
+│   │   │   ├── lib/           # Utility libraries
+│   │   │   │   ├── fhe/       # client.ts, server.ts, keys.ts
+│   │   │   │   └── utils/     # security.ts, validation.ts
+│   │   │   ├── hooks/         # Custom hooks
+│   │   │   │   ├── useFHE.ts
+│   │   │   │   ├── useEncryption.ts
+│   │   │   │   └── useComputation.ts
+│   │   │   └── types/         # TypeScript types
+│   │   │       ├── fhe.ts
+│   │   │       └── api.ts
+│   │   └── package.json
+│   ├── react-example/         # React SPA example
+│   └── agriculture-insurance/ # Real-world example
+│
+├── contracts/                 # Example smart contracts
+│   └── PrivateAgricultureInsurance.sol
+│
+├── scripts/                   # Deployment scripts
+│   └── deploy.js
+│
+├── hardhat.config.js          # Hardhat configuration
+├── package.json               # Root package.json (workspaces)
+├── README.md                  # This file
+├── LICENSE                    # MIT License
+└── CONTRIBUTING.md            # Contribution guidelines
+```
+
+---
+
+## 📋 Templates
+
+The `templates/` directory contains ready-to-use project templates for different frameworks:
+
+### Next.js Template (`templates/nextjs/`)
+
+Complete Next.js 14 App Router template with:
+- Full SDK integration
+- API routes for FHE operations
+- Pre-built UI components
+- Example use cases (Banking, Medical)
+- Custom hooks for FHE operations
+- TypeScript support
+- Tailwind CSS styling
+
+**Quick Start:**
+```bash
+# Copy template to your project
+cp -r templates/nextjs my-fhe-app
+cd my-fhe-app
+npm install
+npm run dev
+```
+
+### React Template (`templates/react/`)
+
+React SPA template with:
+- FHEVM SDK integration
+- Component library
+- Example implementations
+- TypeScript support
+
+---
+
+## 🎓 Examples
+
+### Example 1: Next.js Application
+
+**Location:** `examples/nextjs-example` (also available in `templates/nextjs`)
+
+A complete Next.js 14 application demonstrating full SDK integration with:
+
+**App Structure:**
+- ✅ App Router architecture (Next.js 14)
+- ✅ API Routes for FHE operations
+- ✅ Server-side and client-side FHE utilities
+- ✅ FHEVM SDK integration with React hooks
+
+**Components:**
+- ✅ UI Components: Button, Input, Card
+- ✅ FHE Components: FHEProvider, EncryptionDemo, ComputationDemo, KeyManager
+- ✅ Example Use Cases: BankingExample, MedicalExample
+
+**Features:**
+- ✅ Complete FHE encryption/decryption workflow
+- ✅ Homomorphic computation demonstrations
+- ✅ Key management interface
+- ✅ Tailwind CSS styling
+- ✅ MetaMask connection
+- ✅ Real-world banking and medical examples
+
+**Custom Hooks:**
+- `useFHE()` - Comprehensive FHE operations
+- `useEncryption()` - Enhanced encryption with validation
+- `useComputation()` - Homomorphic computation operations
+
+**Run it:**
+```bash
+npm run dev:nextjs
+```
+
+### Example 2: React SPA Application
+
+**Location:** `examples/react-example`
+
+A simple React Single Page Application demonstrating FHEVM SDK integration:
+
+**App Structure:**
+- ✅ React 18 with TypeScript
+- ✅ Vite for fast development
+- ✅ FHEVM SDK integration with hooks
+- ✅ Wallet connection (MetaMask)
+
+**Components:**
+- ✅ WalletConnect - Wallet connection UI
+- ✅ EncryptionDemo - Number encryption interface
+- ✅ DecryptionDemo - Decryption interface
+
+**Features:**
+- ✅ Simple and educational
+- ✅ Encrypt/decrypt demonstrations
+- ✅ Loading states and error handling
+- ✅ Tailwind CSS styling
+- ✅ TypeScript type safety
+
+**Custom Hooks:**
+- `useFhevmDemo()` - Centralized FHEVM functionality
+
+**Run it:**
+```bash
+npm run dev:react
+```
+
+### Example 3: Agriculture Insurance
+
+**Location:** `examples/agriculture-insurance`
+
+Real-world confidential insurance React application featuring:
+- Privacy-preserving policy creation
+- Encrypted claim submission
+- Confidential damage assessment
+- Smart contract integration
+
+**App Structure:**
+- ✅ React 18 with TypeScript
+- ✅ Vite build system
+- ✅ FHEVM SDK integration
+- ✅ Hardhat smart contracts
+
+**Features:**
+- Encrypted coverage amounts (euint32)
 - Private premium calculations
-- Confidential claim submissions
-- Zero-knowledge damage assessments
+- Confidential claim processing
+- Role-based access control
+- Sunset/orange themed UI
 
-🌱 **Agricultural-Specific Design**
-- Multiple crop types (Wheat, Corn, Rice, Soybeans, Cotton, Other)
-- Six risk factors (Drought, Flood, Hail, Frost, Disease, Pest)
-- Farm size-based policy calculations
-- Season-aware coverage periods
-
-⚡ **Automated Smart Contract Workflow**
-- Instant policy creation with encrypted data
-- Automated claim verification
-- Asynchronous FHE decryption callbacks
-- On-chain settlement processing
-
-🛡️ **Enterprise-Grade Security**
-- Role-based access control (Owner, Assessors)
-- FHE Access Control Lists (ACL)
-- Input validation and sanitization
-- Comprehensive test coverage (60+ test cases)
-
-📊 **Transparent Yet Private**
-- Public audit trails (amounts stay encrypted)
-- Immutable claim history on blockchain
-- Real-time policy status tracking
-- System-wide statistics
-
-🔧 **Developer-Friendly Infrastructure**
-- Hardhat development framework
-- Automated CI/CD pipeline with GitHub Actions
-- Pre-commit hooks for code quality
-- Comprehensive documentation and testing
-
----
-
-## 🏗️ Architecture
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    Frontend (Web3 + Ethers.js)              │
-│  ├─ MetaMask wallet integration                             │
-│  ├─ Client-side FHE encryption                              │
-│  └─ Real-time encrypted data display                        │
-└────────────────────────┬────────────────────────────────────┘
-                         │
-                         ▼
-┌─────────────────────────────────────────────────────────────┐
-│         Smart Contract (Solidity + Zama FHEVM)              │
-│  ├─ Encrypted Storage                                       │
-│  │   ├─ euint32: Coverage amounts                           │
-│  │   ├─ euint32: Premium amounts                            │
-│  │   ├─ euint32: Claim amounts                              │
-│  │   └─ ebool: Status flags                                 │
-│  ├─ Homomorphic Operations                                  │
-│  │   ├─ FHE.asEuint32() - Encrypt values                    │
-│  │   ├─ FHE.add/sub() - Encrypted arithmetic                │
-│  │   └─ FHE.allow() - Access control                        │
-│  └─ Claim Processing Workflow                               │
-│      ├─ Policy creation & validation                        │
-│      ├─ Encrypted claim submission                          │
-│      ├─ Assessor evaluation                                 │
-│      └─ Automated settlement                                │
-└────────────────────────┬────────────────────────────────────┘
-                         │
-                         ▼
-┌─────────────────────────────────────────────────────────────┐
-│              Zama FHEVM (Encryption Layer)                   │
-│  ├─ Encrypted computation on Sepolia testnet                │
-│  ├─ Secure decryption request handling                      │
-│  └─ Privacy-preserving smart contract execution             │
-└─────────────────────────────────────────────────────────────┘
-```
-
-### Data Flow
-
-```
-1. Farmer → Create Policy → Encrypt Amount → Store on Chain
-                ↓
-2. Damage Event → Submit Claim → Encrypted Details → Smart Contract
-                ↓
-3. Assessor → Evaluate Claim → FHE Computation → Approval/Rejection
-                ↓
-4. Settlement → Decrypt Amount → Transfer → Farmer Wallet
+**Run it:**
+```bash
+npm run dev:agriculture
 ```
 
 ---
 
-## 🔧 Technical Implementation
+## 🛠️ SDK API Reference
 
-### FHE Smart Contract Example
+### Core Client
+
+#### `createFhevmClient(config)`
+
+Factory function to create and initialize FHEVM client.
+
+```typescript
+import { createFhevmClient } from '@fhevm-sdk/core';
+
+const client = await createFhevmClient({
+  provider: window.ethereum,  // EIP-1193 provider
+  network: 'sepolia',         // 'sepolia' | 'localhost' | 'zama'
+  gatewayUrl?: string,        // Optional custom gateway
+  rpcUrl?: string,            // Optional custom RPC
+});
+```
+
+#### Encryption Methods
+
+```typescript
+// Encrypt 8-bit unsigned integer (0-255)
+await client.encrypt8(value: number): Promise<EncryptionResult>
+
+// Encrypt 16-bit unsigned integer (0-65535)
+await client.encrypt16(value: number): Promise<EncryptionResult>
+
+// Encrypt 32-bit unsigned integer (0-4294967295)
+await client.encrypt32(value: number): Promise<EncryptionResult>
+
+// Encrypt 64-bit unsigned integer
+await client.encrypt64(value: bigint): Promise<EncryptionResult>
+
+// Encrypt boolean
+await client.encryptBool(value: boolean): Promise<EncryptionResult>
+
+// Encrypt Ethereum address
+await client.encryptAddress(address: string): Promise<EncryptionResult>
+```
+
+#### Decryption Methods
+
+```typescript
+// User decryption with EIP-712 signature
+await client.decrypt(
+  ciphertext: bigint | string,
+  contractAddress: string
+): Promise<bigint>
+
+// Public decryption (for publicly accessible values)
+await client.publicDecrypt(
+  ciphertext: bigint | string,
+  contractAddress: string
+): Promise<bigint>
+```
+
+### React Hooks
+
+#### `useFhevmClient()`
+
+Access the FHEVM client instance.
+
+```typescript
+const { client, isInitialized, network } = useFhevmClient();
+```
+
+#### `useEncrypt()`
+
+Hook for encrypting values.
+
+```typescript
+const {
+  encrypt8,
+  encrypt16,
+  encrypt32,
+  encrypt64,
+  encryptBool,
+  encryptAddress,
+  isLoading,
+  error,
+} = useEncrypt();
+
+// Usage
+const result = await encrypt32(1000);
+```
+
+#### `useDecrypt()`
+
+Hook for decrypting values.
+
+```typescript
+const { decrypt, publicDecrypt, isLoading, error } = useDecrypt();
+
+// Usage
+const decrypted = await decrypt(ciphertext, contractAddress);
+```
+
+#### `useContract()`
+
+Hook for contract interactions.
+
+```typescript
+const { writeContract, readContract, isLoading, error } = useContract();
+
+// Write (send transaction)
+await writeContract({
+  contractAddress: '0x...',
+  abi: contractABI,
+  functionName: 'createPolicy',
+  args: [encryptedValue.data, ...otherArgs],
+  value: 0n, // Optional ETH value
+});
+
+// Read (call view function)
+const result = await readContract({
+  contractAddress: '0x...',
+  abi: contractABI,
+  functionName: 'getPolicyCount',
+  args: [],
+});
+```
+
+---
+
+## 🏗️ Next.js Example Deep Dive
+
+The Next.js example (`examples/nextjs-example`) is structured following the `next.md` specification:
+
+### Directory Structure
+
+```
+src/
+├── app/                        # App Router (Next.js 14)
+│   ├── layout.tsx             # Root layout
+│   ├── page.tsx               # Home page
+│   ├── globals.css            # Global styles
+│   ├── providers.tsx          # Context providers
+│   └── api/                   # API routes
+│       ├── fhe/
+│       │   ├── route.ts       # FHE operations API
+│       │   ├── encrypt/route.ts
+│       │   ├── decrypt/route.ts
+│       │   └── compute/route.ts
+│       └── keys/route.ts      # Key management API
+│
+├── components/                # React components
+│   ├── ui/                    # Base UI components
+│   │   ├── Button.tsx
+│   │   ├── Input.tsx
+│   │   └── Card.tsx
+│   ├── fhe/                   # FHE functionality components
+│   │   ├── FHEProvider.tsx    # FHE context provider
+│   │   ├── EncryptionDemo.tsx # Encryption demonstration
+│   │   ├── ComputationDemo.tsx # Homomorphic computation
+│   │   └── KeyManager.tsx     # Key management UI
+│   └── examples/              # Use case examples
+│       ├── BankingExample.tsx # Private banking demo
+│       └── MedicalExample.tsx # Healthcare privacy demo
+│
+├── lib/                       # Utility libraries
+│   ├── fhe/                   # FHE integration
+│   │   ├── client.ts          # Client-side FHE operations
+│   │   ├── server.ts          # Server-side utilities
+│   │   ├── keys.ts            # Key management
+│   │   └── types.ts           # FHE type definitions
+│   └── utils/                 # Helper functions
+│       ├── security.ts        # Security utilities
+│       └── validation.ts      # Input validation
+│
+├── hooks/                     # Custom React hooks
+│   ├── useFHE.ts             # Comprehensive FHE hook
+│   ├── useEncryption.ts      # Enhanced encryption hook
+│   └── useComputation.ts     # Computation operations hook
+│
+└── types/                     # TypeScript definitions
+    ├── fhe.ts                 # FHE type definitions
+    └── api.ts                 # API type definitions
+```
+
+### Key Features
+
+1. **API Routes**: Server-side endpoints for FHE operations validation
+2. **Component Library**: Reusable UI and FHE-specific components
+3. **Custom Hooks**: Enhanced hooks built on top of SDK hooks
+4. **Use Case Examples**: Real-world scenarios (Banking, Medical)
+5. **Type Safety**: Complete TypeScript type definitions
+6. **Utilities**: Security and validation helpers
+
+---
+
+## 🔧 Development Commands
+
+### Root Level Commands
+
+```bash
+# Install all dependencies
+npm run install:all
+
+# Build SDK package
+npm run build:sdk
+
+# Run Next.js example
+npm run dev:nextjs
+
+# Run React example
+npm run dev:react
+
+# Run Agriculture Insurance example
+npm run dev:agriculture
+
+# Compile smart contracts
+npm run compile:contracts
+
+# Deploy contracts
+npm run deploy:localhost
+npm run deploy:sepolia
+
+# Run tests
+npm run test
+npm run test:sdk
+
+# Lint and format
+npm run lint
+npm run format
+
+# Clean build artifacts
+npm run clean
+```
+
+### SDK Development
+
+```bash
+cd packages/fhevm-sdk
+
+# Build SDK
+npm run build
+
+# Run tests
+npm run test
+
+# Watch mode for development
+npm run dev
+```
+
+---
+
+## 📋 Smart Contract Integration
+
+### Example Contract
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -164,961 +605,249 @@ pragma solidity ^0.8.24;
 
 import "@fhevm/solidity/TFHE.sol";
 
-contract PrivateAgricultureInsurance {
-    // Encrypted policy structure
-    struct Policy {
-        euint32 encryptedCoverage;    // FHE encrypted coverage
-        euint32 encryptedPremium;      // FHE encrypted premium
-        CropType cropType;
-        uint256 farmSize;
-        bool isActive;
+contract ConfidentialExample {
+    mapping(address => euint32) private balances;
+
+    function deposit(bytes calldata encryptedAmount) external {
+        euint32 amount = FHE.asEuint32(encryptedAmount);
+        balances[msg.sender] = FHE.add(balances[msg.sender], amount);
+        FHE.allow(balances[msg.sender], msg.sender);
     }
 
-    // Encrypted claim structure
-    struct Claim {
-        euint32 encryptedDamageAmount;  // Private damage amount
-        euint32 encryptedClaimAmount;   // Private claim request
-        RiskFactor riskType;
-        ClaimStatus status;
-    }
-
-    // Create policy with encrypted amounts
-    function createPolicy(
-        uint256 coverage,
-        uint256 premium,
-        CropType cropType,
-        uint256 farmSize,
-        uint256 duration,
-        string calldata ipfsHash
-    ) external returns (uint256) {
-        // Encrypt sensitive data
-        euint32 encCoverage = FHE.asEuint32(coverage);
-        euint32 encPremium = FHE.asEuint32(premium);
-
-        // Store encrypted policy
-        policies[policyId] = Policy({
-            farmer: msg.sender,
-            encryptedCoverage: encCoverage,
-            encryptedPremium: encPremium,
-            cropType: cropType,
-            farmSize: farmSize,
-            isActive: true
-        });
-
-        // Grant access permissions
-        FHE.allow(encCoverage, msg.sender);
-        FHE.allow(encPremium, msg.sender);
-
-        return policyId;
-    }
-
-    // Submit encrypted claim
-    function submitClaim(
-        uint256 policyId,
-        uint256 damageAmount,
-        uint256 claimAmount,
-        RiskFactor riskType,
-        string calldata evidenceHash
-    ) external returns (uint256) {
-        // Encrypt claim details
-        euint32 encDamage = FHE.asEuint32(damageAmount);
-        euint32 encClaim = FHE.asEuint32(claimAmount);
-
-        // Create encrypted claim
-        claims[claimId] = Claim({
-            policyId: policyId,
-            farmer: msg.sender,
-            encryptedDamageAmount: encDamage,
-            encryptedClaimAmount: encClaim,
-            riskType: riskType,
-            status: ClaimStatus.Pending
-        });
-
-        return claimId;
+    function getBalance() external view returns (euint32) {
+        return balances[msg.sender];
     }
 }
 ```
 
-### Encrypted Data Types
+### Frontend Integration
 
-| Type | Description | Use Case |
-|------|-------------|----------|
-| `euint32` | 32-bit encrypted unsigned integer | Coverage, premiums, claims |
-| `euint64` | 64-bit encrypted unsigned integer | Large financial amounts |
-| `ebool` | Encrypted boolean | Status flags, approvals |
-| `eaddress` | Encrypted address | Private recipient data |
+```typescript
+import { useEncrypt, useContract } from '@fhevm-sdk/core/react';
 
-### FHE Operations
+function DepositComponent() {
+  const { encrypt32 } = useEncrypt();
+  const { writeContract } = useContract();
 
-```solidity
-// Arithmetic on encrypted values
-euint32 total = FHE.add(encAmount1, encAmount2);
-euint32 difference = FHE.sub(encCoverage, encClaim);
+  const handleDeposit = async (amount: number) => {
+    // 1. Encrypt the amount
+    const encrypted = await encrypt32(amount);
 
-// Comparison operations
-ebool isValid = FHE.le(encClaim, encCoverage);  // claim <= coverage
-ebool goalReached = FHE.ge(encTotal, encGoal);   // total >= goal
+    // 2. Send to contract
+    await writeContract({
+      contractAddress: CONTRACT_ADDRESS,
+      abi: CONTRACT_ABI,
+      functionName: 'deposit',
+      args: [encrypted.data],
+    });
+  };
 
-// Conditional operations
-euint32 result = FHE.select(condition, valueIfTrue, valueIfFalse);
-
-// Access control
-FHE.allow(encryptedValue, authorizedAddress);
+  return <button onClick={() => handleDeposit(1000)}>Deposit</button>;
+}
 ```
 
 ---
 
-## 🌐 Live Demo & Deployment
+## 🌐 Network Support
 
-### Live Application
-🚀 **Website**: [https://fhe-agriculture-insurance.vercel.app/](https://fhe-agriculture-insurance.vercel.app/)
-
-### Deployed Contract
-📋 **Network**: Sepolia Testnet (Chain ID: 11155111)
-📋 **Contract Address**: [`0x44cB004a09224332d7Bc4161aeF9cEDbAe43991d`](https://sepolia.etherscan.io/address/0x44cB004a09224332d7Bc4161aeF9cEDbAe43991d)
-📋 **Explorer**: [View on Etherscan](https://sepolia.etherscan.io/address/0x44cB004a09224332d7Bc4161aeF9cEDbAe43991d)
-
-### Video Demonstration
-📹 **Demo Video**: [`demo.mp4`](./demo.mp4) - **Download the file to watch the demonstration**
-
-The video showcases:
-- Policy creation with encrypted coverage amounts
-- Confidential claim submission workflow
-- FHE-based claim assessment process
-- Privacy-preserving settlement execution
-
-### Get Test Tokens
-🚰 **Sepolia Faucet**: [https://sepoliafaucet.com/](https://sepoliafaucet.com/)
-🚰 **Alternative**: [https://faucet.quicknode.com/ethereum/sepolia](https://faucet.quicknode.com/ethereum/sepolia)
+| Network | Chain ID | Status | Gateway URL |
+|---------|----------|--------|-------------|
+| Sepolia Testnet | 11155111 | ✅ Supported | https://gateway.sepolia.zama.ai |
+| Zama Devnet | 8009 | ✅ Supported | https://gateway.devnet.zama.ai |
+| Local Hardhat | 31337 | ✅ Supported | http://localhost:8546 |
 
 ---
 
-## 💻 Tech Stack
-
-### Smart Contract Layer
-- **Blockchain**: Ethereum (Sepolia Testnet)
-- **FHE Library**: Zama fhEVM (`@fhevm/solidity` v0.7.0)
-- **Language**: Solidity 0.8.24
-- **Framework**: Hardhat 2.19.4
-- **Security**: OpenZeppelin Contracts v5.4.0
-
-### Development Tools
-- **Testing**: Mocha, Chai, Ethers.js (60+ test cases)
-- **Linting**: Solhint (Solidity), ESLint (JavaScript)
-- **Formatting**: Prettier with Solidity plugin
-- **Pre-commit**: Husky + lint-staged
-- **Gas Optimization**: Yul optimizer (800 runs)
-- **Coverage**: Codecov integration
-
-### Frontend
-- **UI**: HTML5, Bootstrap 5, Vanilla JavaScript
-- **Web3**: Ethers.js v6
-- **Wallet**: MetaMask integration
-- **Deployment**: Vercel
-
-### CI/CD
-- **Pipeline**: GitHub Actions (5-job workflow)
-- **Quality Checks**: Automated linting, formatting, testing
-- **Multi-version**: Node.js 18.x & 20.x
-- **Security**: Pre-commit hooks, npm audit
-
----
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-```bash
-# Required
-Node.js >= 16.0.0
-npm >= 8.0.0
-Git
-
-# Optional (for deployment)
-MetaMask wallet with Sepolia ETH
-Etherscan API key
-```
-
-### Installation
-
-```bash
-# Clone repository
-git clone https://github.com/GaylordOsinski/FHEAgricultureInsurance.git
-cd FHEAgricultureInsurance
-
-# Install dependencies
-npm install
-
-# Set up environment
-cp .env.example .env
-# Edit .env with your configuration
-```
-
-### Local Development
-
-```bash
-# Compile smart contracts
-npm run compile
-
-# Run test suite
-npm test
-
-# Start local Hardhat node
-npm run node
-
-# Deploy to local network (in new terminal)
-npm run deploy:local
-
-# Run simulation with sample data
-npm run simulate:local
-
-# Interact with deployed contract
-npm run interact:local
-```
-
-### Deploy to Sepolia Testnet
-
-```bash
-# Configure .env file
-SEPOLIA_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/YOUR_API_KEY
-PRIVATE_KEY=your_private_key_without_0x_prefix
-ETHERSCAN_API_KEY=your_etherscan_api_key
-
-# Deploy contract
-npm run deploy:sepolia
-
-# Verify on Etherscan
-npm run verify:sepolia
-
-# Interact with deployed contract
-npm run interact:sepolia
-```
-
----
-
-## 🧪 Testing
-
-### Test Suite Overview
-
-**60+ comprehensive test cases** covering:
-
-✅ **Deployment Tests** (2 tests)
-- Contract initialization
-- Owner assignment
-
-✅ **Policy Management** (15 tests)
-- Encrypted policy creation
-- Policy retrieval and validation
-- Multiple policies per farmer
-- Expiration handling
-
-✅ **Claim Workflow** (18 tests)
-- Encrypted claim submission
-- Status tracking
-- Policy holder verification
-- Active policy requirements
-
-✅ **Assessor Management** (8 tests)
-- Authorization and roles
-- Access control
-- Assessment actions
-
-✅ **Claim Assessment** (10 tests)
-- Approval/rejection workflow
-- Encrypted payout validation
-- Assessor-only operations
-
-✅ **Access Control** (5 tests)
-- Owner privileges
-- Unauthorized access prevention
-- Role-based permissions
-
-✅ **Edge Cases** (5 tests)
-- Zero values and boundary conditions
-- Invalid input handling
-
-### Running Tests
-
-```bash
-# Run all tests
-npm test
-
-# Run with gas reporting
-REPORT_GAS=true npm test
-
-# Run specific test file
-npm test -- test/AgricultureInsurance.test.js
-
-# Run performance tests
-npm test -- test/performance.test.js
-
-# Run tests with coverage
-npm run coverage
-
-# Run security audit
-npm run security:audit
-```
-
-### Performance Benchmarks
-
-```bash
-# Run gas analysis
-node scripts/gas-analysis.js
-
-# Expected gas usage:
-# - createPolicy: < 500,000 gas
-# - submitClaim: < 400,000 gas
-# - assessClaim: < 300,000 gas
-# - authorizeAssessor: < 100,000 gas
-```
-
-**Note**: 45 out of 60 tests require FHE infrastructure (FHEVM mock or Sepolia deployment). 15 tests pass without FHE dependencies. See [TESTING.md](./TESTING.md) for details.
-
----
-
-## 📋 Usage Guide
-
-### For Farmers
-
-#### 1. Create Insurance Policy
-
-```javascript
-// Connect wallet
-await ethereum.request({ method: 'eth_requestAccounts' });
-
-// Create encrypted policy
-const tx = await contract.createPolicy(
-  100000,           // coverage amount (encrypted)
-  5000,             // premium amount (encrypted)
-  CropType.Wheat,   // crop type
-  50,               // farm size (acres)
-  365 * 24 * 60 * 60, // duration (1 year)
-  "QmIPFSHash..."  // policy details on IPFS
-);
-
-await tx.wait();
-console.log("Policy created with encrypted amounts!");
-```
-
-#### 2. Submit Claim
-
-```javascript
-// Submit encrypted claim
-const claimTx = await contract.submitClaim(
-  policyId,           // your policy ID
-  40000,              // damage amount (encrypted)
-  35000,              // claim request (encrypted)
-  RiskFactor.Drought, // risk type
-  "QmEvidenceHash..." // evidence on IPFS
-);
-
-await claimTx.wait();
-console.log("Claim submitted privately!");
-```
-
-#### 3. Check Claim Status
-
-```javascript
-// Get claim details
-const claim = await contract.getClaimDetails(claimId);
-
-// Status: Pending, Approved, Rejected, Paid
-console.log("Status:", claim.status);
-```
-
-### For Assessors
-
-#### 1. Get Authorization
-
-```javascript
-// Owner must authorize assessor
-await contract.authorizeAssessor(assessorAddress);
-```
-
-#### 2. Evaluate Claims
-
-```javascript
-// Approve claim
-await contract.assessClaim(
-  claimId,
-  true,  // approve
-  35000  // approved amount (encrypted)
-);
-
-// Reject claim
-await contract.assessClaim(
-  claimId,
-  false, // reject
-  0
-);
-```
-
-### For System Administrators
-
-#### View System Statistics
-
-```javascript
-const [totalPolicies, totalClaims, activePolicies] =
-  await contract.getSystemStats();
-
-console.log(`Total Policies: ${totalPolicies}`);
-console.log(`Total Claims: ${totalClaims}`);
-console.log(`Active Policies: ${activePolicies}`);
-```
-
----
-
-## 🔒 Privacy Model
-
-### What's Private (Encrypted on-chain)
-
-✅ **Policy amounts** - Coverage and premium values
-✅ **Claim amounts** - Damage assessments and claim requests
-✅ **Individual calculations** - Premium computations and risk assessments
-✅ **Assessment decisions** - Approved payout amounts
-
-### What's Public (Visible on-chain)
-
-📢 **Transaction existence** - Policy and claim creation events
-📢 **Participant addresses** - Farmer and assessor addresses
-📢 **Metadata** - Crop types, risk factors, timestamps
-📢 **Status flags** - Policy active status, claim status (Pending/Approved/Rejected)
-📢 **System statistics** - Total policies and claims count
-
-### Decryption Permissions
-
-🔑 **Policy Holder** - Can decrypt their own policy amounts
-🔑 **Claim Owner** - Can decrypt their own claim details
-🔑 **Contract Owner** - Administrative access to encrypted data
-🔑 **Authorized Assessors** - Can decrypt claims they're evaluating
-
----
-
-## 📦 Available Scripts
-
-### Development
-```bash
-npm run compile          # Compile smart contracts
-npm run clean            # Clean build artifacts
-npm run node             # Start local Hardhat node
-npm test                 # Run test suite
-npm run coverage         # Generate coverage report
-```
-
-### Deployment
-```bash
-npm run deploy:local     # Deploy to local Hardhat network
-npm run deploy:sepolia   # Deploy to Sepolia testnet
-npm run deploy:zama      # Deploy to Zama FHE network
-npm run verify:sepolia   # Verify contract on Etherscan
-```
-
-### Interaction
-```bash
-npm run interact:local   # Interact with local contract
-npm run interact:sepolia # Interact with Sepolia contract
-npm run simulate:local   # Run workflow simulation locally
-npm run simulate:sepolia # Run workflow simulation on Sepolia
-```
-
-### Code Quality
-```bash
-npm run lint             # Run all linters
-npm run lint:sol         # Solidity linting with Solhint
-npm run lint:js          # JavaScript linting with ESLint
-npm run prettier:check   # Check code formatting
-npm run prettier:write   # Format all code
-npm run verify:all       # Run all pre-deployment checks
-```
-
-### Security & Performance
-```bash
-npm run security:check   # Quick security check (npm audit)
-npm run security:audit   # Full security audit scan
-npm run gas:report       # Generate gas usage report
-node scripts/gas-analysis.js  # Detailed gas analysis
-```
-
----
-
-## 🗂️ Project Structure
-
-```
-agriculture-insurance-platform/
-├── contracts/                      # Smart contract source files
-│   └── PrivateAgricultureInsurance.sol
-│
-├── scripts/                        # Deployment and utility scripts
-│   ├── deploy.js                  # Main deployment script
-│   ├── verify.js                  # Etherscan verification
-│   ├── interact.js                # Contract interaction examples
-│   ├── simulate.js                # Full workflow simulation
-│   ├── security-audit.js          # Security pattern scanning
-│   └── gas-analysis.js            # Gas optimization analysis
-│
-├── test/                          # Test suites
-│   ├── AgricultureInsurance.test.js   # Main test suite (60+ tests)
-│   └── performance.test.js            # Performance benchmarks
-│
-├── .github/workflows/             # CI/CD pipeline
-│   └── test.yml                   # GitHub Actions workflow
-│
-├── .husky/                        # Git hooks
-│   └── pre-commit                 # Pre-commit quality checks
-│
-├── deployments/                   # Deployment artifacts (auto-generated)
-│   ├── localhost.json
-│   ├── sepolia.json
-│   └── zama.json
-│
-├── reports/                       # Generated reports (auto-generated)
-│   ├── gas-analysis-*.json
-│   └── security-audit-*.json
-│
-├── public/                        # Frontend files
-│   ├── index.html
-│   ├── app.js
-│   └── styles.css
-│
-├── .eslintrc.json                 # ESLint configuration
-├── .solhint.json                  # Solhint configuration
-├── .prettierrc                    # Prettier configuration
-├── codecov.yml                    # Code coverage config
-├── hardhat.config.js              # Hardhat configuration
-├── package.json                   # Dependencies and scripts
-├── .env.example                   # Environment template
-│
-├── DEPLOYMENT.md                  # Deployment guide
-├── TESTING.md                     # Testing documentation
-├── CI_CD.md                       # CI/CD documentation
-├── SECURITY.md                    # Security & performance guide
-├── PROJECT_SUMMARY.md             # Project overview
-├── LICENSE                        # MIT License
-└── README.md                      # This file
-```
-
----
-
-## ⚙️ Configuration
-
-### Environment Variables
-
-Create `.env` file:
-
-```env
-# =============================================================================
-# NETWORK CONFIGURATION
-# =============================================================================
-
-# Sepolia Testnet RPC URL
-SEPOLIA_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/YOUR_API_KEY
-
-# Zama FHE Network RPC URL
-ZAMA_RPC_URL=https://devnet.zama.ai/
-
-# =============================================================================
-# DEPLOYMENT CONFIGURATION
-# =============================================================================
-
-# Private Key (without 0x prefix)
-PRIVATE_KEY=your_private_key_here_without_0x_prefix
-
-# Deployer Address (optional)
-DEPLOYER_ADDRESS=0xYourDeployerAddress
-
-# =============================================================================
-# CONTRACT VERIFICATION
-# =============================================================================
-
-# Etherscan API Key
-ETHERSCAN_API_KEY=your_etherscan_api_key_here
-
-# =============================================================================
-# GAS REPORTING & OPTIMIZATION
-# =============================================================================
-
-# Enable gas reporting in tests
-REPORT_GAS=false
-
-# Coinmarketcap API Key (optional, for USD conversion)
-COINMARKETCAP_API_KEY=your_coinmarketcap_api_key_here
-
-# =============================================================================
-# SECURITY & ACCESS CONTROL
-# =============================================================================
-
-# Pauser Role Configuration
-PAUSER_ADDRESS=0xYourPauserAddress
-
-# Admin/Owner Address
-ADMIN_ADDRESS=0xYourAdminAddress
-
-# Emergency Contact
-EMERGENCY_CONTACT=0xYourEmergencyContactAddress
-```
-
-See [`.env.example`](./.env.example) for complete configuration template.
-
-### Hardhat Configuration
-
-```javascript
-// hardhat.config.js
-module.exports = {
-  solidity: {
-    version: "0.8.24",
-    settings: {
-      optimizer: {
-        enabled: true,
-        runs: 800,
-        details: {
-          yul: true,  // Advanced Yul optimization
-          yulDetails: {
-            stackAllocation: true,
-            optimizerSteps: "dhfoDgvulfnTUtnIf"
-          }
-        }
-      },
-      evmVersion: "cancun"
-    }
-  },
-  networks: {
-    sepolia: {
-      url: process.env.SEPOLIA_RPC_URL,
-      chainId: 11155111,
-      accounts: [process.env.PRIVATE_KEY]
-    },
-    zama: {
-      url: process.env.ZAMA_RPC_URL,
-      chainId: 8009,
-      accounts: [process.env.PRIVATE_KEY]
-    }
-  },
-  gasReporter: {
-    enabled: process.env.REPORT_GAS === "true",
-    currency: "USD",
-    showTimeSpent: true,
-    showMethodSig: true
-  }
-};
-```
-
----
-
-## 🔐 Security Considerations
-
-### Smart Contract Security
-
-✅ **Access Control**
-- Owner-only administrative functions
-- Authorized assessors for claim evaluation
-- Role-based permissions
-
-✅ **Input Validation**
-- All user inputs validated
-- Require statements for critical operations
-- Boundary condition checks
-
-✅ **FHE Security**
-- Encrypted storage of sensitive data
-- Access Control Lists (ACL) management
-- Signature verification for decryption
-
-✅ **Reentrancy Protection**
-- Checks-Effects-Interactions pattern
-- State updates before external calls
-
-### Pre-deployment Security Checklist
-
-- [ ] All tests passing (60+ test cases)
-- [ ] Security audit completed (`npm run security:audit`)
-- [ ] Gas analysis performed
-- [ ] Contract size within limits (< 24 KB)
-- [ ] Environment variables secured
-- [ ] Pre-commit hooks configured
-- [ ] Code reviewed by team
-- [ ] Third-party audit (for mainnet)
-
-### Known Limitations
-
-⚠️ **FHE Testing** - 45 out of 60 tests require FHEVM infrastructure
-⚠️ **Gas Costs** - FHE operations are more expensive than standard operations
-⚠️ **Network Support** - Currently supports Sepolia and Zama devnet
-⚠️ **Decryption Latency** - Async decryption requires callback mechanism
-
-See [SECURITY.md](./SECURITY.md) for comprehensive security documentation.
-
----
-
-## 📊 Gas Costs & Optimization
-
-### Gas Benchmarks
-
-| Operation | Target Gas | Limit | Status |
-|-----------|-----------|-------|--------|
-| createPolicy | < 400,000 | 500,000 | ✅ Optimized |
-| submitClaim | < 300,000 | 400,000 | ✅ Optimized |
-| assessClaim | < 250,000 | 300,000 | ✅ Optimized |
-| authorizeAssessor | < 80,000 | 100,000 | ✅ Optimized |
-
-### Optimization Techniques
-
-✅ Yul optimizer enabled (800 runs)
-✅ Efficient struct packing
-✅ Minimal storage operations
-✅ Gas-optimized loops
-✅ Custom errors (Solidity 0.8.4+)
-✅ View/pure functions where possible
-
-### Cost Analysis
-
-```bash
-# Generate detailed gas report
-REPORT_GAS=true npm test
-
-# Analyze contract size and optimization
-node scripts/gas-analysis.js
-```
-
----
-
-## 🚢 CI/CD Pipeline
-
-### Automated Workflow
-
-The project includes a **5-job CI/CD pipeline** with GitHub Actions:
-
-#### Jobs
-
-1. **code-quality** - Linting and formatting
-   - Prettier formatting check
-   - Solhint (Solidity linting)
-   - ESLint (JavaScript linting)
-
-2. **test-node-18** - Tests on Node.js 18.x
-   - Dependency installation
-   - Contract compilation
-   - Full test suite
-   - Coverage report
-
-3. **test-node-20** - Tests on Node.js 20.x
-   - Same as Node 18
-   - Ensures compatibility
-
-4. **deployment-check** - Deployment verification
-   - Simulates deployment
-   - Verifies scripts
-
-5. **build-status** - Overall status
-   - Depends on all jobs
-   - Final pipeline status
-
-### Triggers
-
-✅ Push to `main` or `develop` branches
-✅ Pull requests to `main` or `develop`
-
-### Quality Gates
-
-- ✅ All tests must pass
-- ✅ Code coverage > 80%
-- ✅ No linting errors
-- ✅ Properly formatted code
-- ✅ Successful deployment simulation
-
-See [CI_CD.md](./CI_CD.md) for detailed documentation.
+## 📊 Comparison with Other Solutions
+
+| Feature | FHEVM SDK | fhevmjs alone | Custom Integration |
+|---------|-----------|---------------|-------------------|
+| Setup Lines | < 10 | ~50 | ~100+ |
+| Framework Support | All | Manual | Manual |
+| React Hooks | ✅ Built-in | ❌ None | 🔧 Build yourself |
+| TypeScript | ✅ Full | ⚠️ Partial | 🔧 Build yourself |
+| Error Handling | ✅ Built-in | 🔧 Manual | 🔧 Manual |
+| Validation | ✅ Automatic | ❌ None | 🔧 Manual |
+| Multi-network | ✅ Built-in | 🔧 Manual | 🔧 Manual |
+| Documentation | ✅ Complete | ⚠️ Limited | ❌ None |
+| Learning Curve | Low | Medium | High |
 
 ---
 
 ## 🎯 Use Cases
 
-### 👨‍🌾 Individual Farmers
-- Protect financial privacy from competitors
-- Secure coverage for valuable crops
-- Confidential damage reporting
-- Private claim settlements
+### 1. **Privacy-Preserving Finance**
+- Confidential transactions
+- Private balances
+- Encrypted voting power
+- Hidden bid auctions
 
-### 🏢 Insurance Providers
-- Assess risks without exposing client data
-- Automated claim verification
-- Reduced fraud through blockchain transparency
-- Lower operational costs with smart contracts
+### 2. **Healthcare Records**
+- Encrypted patient data
+- Private medical history
+- Confidential prescriptions
+- HIPAA-compliant storage
 
-### 🤝 Agricultural Cooperatives
-- Bulk policy management for members
-- Privacy-preserving risk pools
-- Collective claim processing
-- Member data protection
+### 3. **Supply Chain**
+- Confidential pricing
+- Private inventory levels
+- Encrypted supplier information
+- Hidden cost structures
 
-### 🏛️ Regulators & Auditors
-- Transparent auditing with privacy
-- Compliance verification
-- Fraud detection without data exposure
-- Trust without compromising confidentiality
+### 4. **Insurance** (See Example)
+- Private policy amounts
+- Confidential claims
+- Encrypted risk assessments
+- Hidden premium calculations
+
+### 5. **Gaming**
+- Hidden player stats
+- Encrypted loot boxes
+- Private inventory
+- Confidential matchmaking
 
 ---
 
-## 🗺️ Roadmap
+## 🔒 Security Best Practices
 
-### Phase 1 - Current ✅
-- [x] Core FHE smart contract
-- [x] Policy and claim management
-- [x] Assessor workflow
-- [x] Comprehensive testing (60+ tests)
-- [x] CI/CD pipeline
-- [x] Sepolia deployment
-- [x] Frontend interface
+### 1. **Validate Input**
+```typescript
+// SDK handles validation automatically
+await client.encrypt32(value); // Throws if value > 4,294,967,295
+```
 
-### Phase 2 - Q1 2025 🚧
-- [ ] Oracle integration for weather data
-- [ ] Advanced risk assessment models
-- [ ] Mobile-responsive UI improvements
-- [ ] Multi-language support
-- [ ] Enhanced analytics dashboard
+### 2. **Handle Errors**
+```typescript
+try {
+  const encrypted = await encrypt32(value);
+} catch (error) {
+  console.error('Encryption failed:', error);
+  // Handle error appropriately
+}
+```
 
-### Phase 3 - Q2 2025 📅
-- [ ] Multi-chain deployment (Polygon, BSC)
-- [ ] Reinsurance pool functionality
-- [ ] AI-powered risk scoring
-- [ ] Native mobile applications
-- [ ] Integration with IoT sensors
+### 3. **Manage Permissions**
+```solidity
+// In your contract
+FHE.allow(encryptedValue, authorizedAddress);
+```
 
-### Phase 4 - Q3 2025 🔮
-- [ ] DAO governance implementation
-- [ ] Tokenomics and rewards system
-- [ ] Cross-chain bridges
-- [ ] Enterprise partnerships
-- [ ] Mainnet launch
+### 4. **Secure Keys**
+- Never commit private keys
+- Use environment variables
+- Use hardware wallets in production
+
+---
+
+## 🧪 Testing
+
+### Run SDK Tests
+
+```bash
+cd packages/fhevm-sdk
+npm run test
+```
+
+### Test Coverage
+
+The SDK includes comprehensive tests for:
+- ✅ Client initialization
+- ✅ Encryption methods (all types)
+- ✅ Decryption flows
+- ✅ Error handling
+- ✅ Validation logic
+- ✅ React hooks
+- ✅ Network configurations
+
+---
+
+## 🛣️ Roadmap
+
+### Phase 1 - Core SDK ✅ (Current)
+- [x] Framework-agnostic core client
+- [x] React hooks and providers
+- [x] TypeScript definitions
+- [x] Multi-network support
+- [x] Comprehensive documentation
+
+### Phase 2 - Extended Support 🚧
+- [ ] Vue 3 composables
+- [ ] Svelte stores
+- [ ] Angular services
+- [ ] React Native support
+
+### Phase 3 - Advanced Features 📅
+- [ ] Encrypted token standards (ERC-20, ERC-721)
+- [ ] Encrypted governance primitives
+- [ ] SDK CLI for scaffolding
+- [ ] Visual debugger
+
+### Phase 4 - Ecosystem 🔮
+- [ ] Official NPM package
+- [ ] CDN distribution
+- [ ] Plugin marketplace
+- [ ] Developer grants program
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributions from the community! Here's how you can help:
+Contributions are welcome! This project is open source and built for the community.
 
-### Ways to Contribute
-
-🐛 **Bug Reports** - Report issues on GitHub
-✨ **Feature Requests** - Suggest new features
-💻 **Code Contributions** - Submit pull requests
-📚 **Documentation** - Improve docs and guides
-🎓 **Educational Content** - Create tutorials and examples
-
-### Development Process
+### Development Setup
 
 ```bash
-# 1. Fork the repository
-# 2. Clone your fork
-git clone https://github.com/YOUR_USERNAME/FHEAgricultureInsurance.git
+# Clone repository
+git clone <repository-url>
+cd fhevm-universal-sdk
 
-# 3. Create a feature branch
-git checkout -b feature/amazing-feature
+# Install dependencies
+npm install
 
-# 4. Make your changes and commit
-git commit -m "Add amazing feature"
+# Build SDK
+npm run build:sdk
 
-# 5. Push to your fork
-git push origin feature/amazing-feature
-
-# 6. Open a Pull Request
+# Run examples
+npm run dev:nextjs
 ```
 
-### Code Standards
+### Guidelines
 
-- Follow existing code style
+- Write TypeScript with full type safety
 - Add tests for new features
 - Update documentation
-- Run all quality checks: `npm run verify:all`
-- Ensure CI/CD pipeline passes
+- Follow existing code style
+- Create meaningful commit messages
 
 ---
 
-## 📚 Documentation
+## 📚 Resources
 
-### Available Guides
+### Official Documentation
+- 📖 [Zama FHEVM Docs](https://docs.zama.ai/)
+- 📖 [fhevmjs Documentation](https://github.com/zama-ai/fhevmjs)
+- 📖 [Solidity TFHE Library](https://github.com/zama-ai/fhevm)
 
-📖 **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Complete deployment guide
-📖 **[TESTING.md](./TESTING.md)** - Testing procedures and coverage
-📖 **[CI_CD.md](./CI_CD.md)** - CI/CD pipeline documentation
-📖 **[SECURITY.md](./SECURITY.md)** - Security and performance guide (comprehensive)
-📖 **[PROJECT_SUMMARY.md](./PROJECT_SUMMARY.md)** - Project overview and summary
+### Community
+- 💬 [Zama Discord](https://discord.com/invite/zama)
+- 🐦 [Zama Twitter](https://twitter.com/zama_fhe)
+- 🎓 [FHEVM Tutorials](https://docs.zama.ai/fhevm)
 
-### External Resources
-
-🔗 **[Zama Documentation](https://docs.zama.ai/)** - FHEVM official docs
-🔗 **[Solidity Security](https://consensys.github.io/smart-contract-best-practices/)** - Best practices
-🔗 **[OpenZeppelin](https://docs.openzeppelin.com/)** - Security standards
-
----
-
-## 🔍 Troubleshooting
-
-### Common Issues
-
-#### Issue: Tests failing with FHE errors
-
-```bash
-# Solution: FHE tests require FHEVM infrastructure
-# Run non-FHE tests only:
-npm test -- --grep "should deploy contract"
-
-# Or deploy to Sepolia for full testing:
-npm run deploy:sepolia
-npm test -- --network sepolia
-```
-
-#### Issue: Gas estimation failed
-
-```bash
-# Solution: Increase gas limit in hardhat.config.js
-networks: {
-  sepolia: {
-    gas: 8000000,
-    gasPrice: 20000000000
-  }
-}
-```
-
-#### Issue: Contract verification failed
-
-```bash
-# Solution: Ensure correct constructor arguments
-npm run verify:sepolia
-
-# Manual verification:
-npx hardhat verify --network sepolia CONTRACT_ADDRESS
-```
-
-#### Issue: MetaMask connection issues
-
-```bash
-# Solution: Reset MetaMask account
-# Settings → Advanced → Reset Account
-# Then refresh browser and reconnect
-```
-
-### Getting Help
-
-💬 **GitHub Issues** - [Open an issue](https://github.com/GaylordOsinski/FHEAgricultureInsurance/issues)
-💬 **GitHub Discussions** - [Join discussion](https://github.com/GaylordOsinski/FHEAgricultureInsurance/discussions)
-💬 **Documentation** - Check [SECURITY.md](./SECURITY.md) and [TESTING.md](./TESTING.md)
+### Related Projects
+- 🔗 [fhevm-react-template (original)](https://github.com/zama-ai/fhevm-react-template)
+- 🔗 [FHEVM Hardhat Template](https://github.com/zama-ai/fhevm-hardhat-template)
 
 ---
 
-## 🏆 Acknowledgments
+## 🎬 Video Demonstration
 
-### Built With
+**[Watch demo.mp4](./demo.mp4)** to see the SDK in action:
 
-- **Zama** - For the groundbreaking FHEVM technology enabling on-chain encrypted computation
-- **Hardhat** - For the professional-grade Ethereum development environment
-- **OpenZeppelin** - For battle-tested smart contract libraries
-- **Ethereum Foundation** - For the Sepolia testnet infrastructure
-
-### Special Thanks
-
-- Zama team for FHE technology support and documentation
-- Hardhat team for excellent developer tooling
-- Agricultural insurance domain experts for requirements guidance
-- Open-source community for continuous inspiration
+- ✅ Quick setup (< 5 minutes)
+- ✅ Next.js integration
+- ✅ Agriculture Insurance example
+- ✅ Encryption and decryption flows
+- ✅ Smart contract deployment
 
 ---
 
@@ -1129,47 +858,53 @@ This project is licensed under the **MIT License** - see the [LICENSE](./LICENSE
 ```
 MIT License
 
-Copyright (c) 2024 Agriculture Insurance Platform Team
+Copyright (c) 2024 FHEVM SDK Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+in the Software without restriction...
 ```
 
 ---
 
-## 📞 Contact & Support
+## 🙏 Acknowledgments
 
-### Connect With Us
+### Built For
+- **Zama FHEVM Bounty Challenge** - Building the next generation of privacy-preserving Web3
 
-📧 **Email**: support@agriculture-insurance.io
-🐙 **GitHub**: [FHEAgricultureInsurance](https://github.com/GaylordOsinski/FHEAgricultureInsurance)
-🌐 **Website**: [https://fhe-agriculture-insurance.vercel.app/](https://fhe-agriculture-insurance.vercel.app/)
+### Special Thanks
+- **Zama Team** - For pioneering FHE technology and FHEVM
+- **fhevmjs Contributors** - For the foundation library
+- **Open Source Community** - For inspiration and support
 
-### Community
+---
 
-💬 **Discord** - Join our community (coming soon)
-🐦 **Twitter** - Follow for updates (coming soon)
-📺 **YouTube** - Tutorial videos (coming soon)
+## 📞 Support
+
+### Questions?
+- 📧 Create an issue in the repository
+- 💬 Join [Zama Discord](https://discord.com/invite/zama)
+- 📖 Check [Zama Documentation](https://docs.zama.ai/)
+
+### Found a Bug?
+Please open an issue with:
+- Clear description
+- Steps to reproduce
+- Expected vs actual behavior
+- Environment details
 
 ---
 
 <div align="center">
 
-**Built with ❤️ for the Agricultural Community**
+**Built with ❤️ for the Privacy-First Web3 Future**
 
-*Protecting Privacy • Ensuring Trust • Empowering Farmers*
+*Making Confidential Computing Simple, Accessible, and Developer-Friendly*
 
-⭐ **Star us on GitHub** if this project helped you!
+⭐ **Star this repo if you find it useful!**
 
-[🌐 Live Demo](https://fhe-agriculture-insurance.vercel.app/) • [📹 Video Demo demo.mp4]• [📖 Documentation](#-documentation) • [🤝 Contributing](#-contributing)
+[📦 View Package](#installation) • [🚀 Quick Start](#quick-start) • [📖 API Docs](#sdk-api-reference) • [💡 Examples](#examples)
 
-**Made with Zama FHEVM** 🔐
+**Powered by Zama FHEVM** 🔐
 
 </div>
