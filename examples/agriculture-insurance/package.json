@@ -1,0 +1,53 @@
+{
+  "name": "private-agriculture-insurance",
+  "version": "2.0.0",
+  "description": "Confidential Agricultural Insurance Claims Processing System using Zama FHE - React Application",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "deploy": "npx hardhat run scripts/deploy.js --network sepolia",
+    "compile": "npx hardhat compile",
+    "test": "npx hardhat test"
+  },
+  "dependencies": {
+    "@fhevm-sdk/core": "*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "ethers": "^6.10.0",
+    "@fhevm/hardhat-plugin": "^0.0.1-3",
+    "@fhevm/solidity": "^0.7.0",
+    "@openzeppelin/contracts": "^5.4.0",
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@types/react": "^18.2.48",
+    "@types/react-dom": "^18.2.18",
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "@typescript-eslint/parser": "^6.19.1",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "hardhat": "^2.19.4",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12"
+  },
+  "keywords": [
+    "blockchain",
+    "fhe",
+    "zama",
+    "agriculture",
+    "insurance",
+    "privacy",
+    "confidential",
+    "react",
+    "typescript"
+  ],
+  "author": "Agriculture Insurance System",
+  "license": "MIT"
+}
